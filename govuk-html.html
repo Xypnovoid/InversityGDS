@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOV.UK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: #f3f2f1;
+        }
+
+        .crown-bar {
+            background: #000;
+            color: white;
+            padding: 8px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .header {
+            background: white;
+            border-top: 10px solid #1d70b8;
+            padding: 15px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1d70b8;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #b1b4b6;
+            border-right: none;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            background: #1d70b8;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav {
+            background: #1d70b8;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 250px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: #0b0c0c;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background: #f8f8f8;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .main-content {
+            margin: 30px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border: 1px solid #b1b4b6;
+        }
+
+        .card h2 {
+            color: #0b0c0c;
+            margin-bottom: 15px;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin: 10px 0;
+        }
+
+        .card a {
+            color: #1d70b8;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .recent-activity {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #b1b4b6;
+            display: none;
+        }
+
+        .footer {
+            background: #0b0c0c;
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .footer li {
+            margin: 5px 0;
+        }
+
+        .login-section {
+            display: flex;
+            gap: 10px;
+        }
+
+        .login-section input {
+            padding: 8px;
+            border: 1px solid #b1b4b6;
+        }
+
+        .login-section button {
+            padding: 8px 15px;
+            background: #00703c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .logout-section {
+            display: flex;
+            gap: 10px;
+        }
+
+        .logout-section input {
+            padding: 8px;
+            border: 1px solid #b1b4b6;
+        }
+
+        .logout-section button {
+            padding: 8px 15px;
+            background: #00703c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="crown-bar">
+        <div class="container">
+            GOV.UK
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">GOV.UK</div>
+            
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search GOV.UK">
+                <button onclick="handleSearch()">Search</button>
+            </div>
+
+            <div class="login-section" id="login-section">
+                <input type="text" id="username" placeholder="Username">
+                <input type="password" id="password" placeholder="Password">
+                <button onclick="handleLogin()">Sign in</button>
+            </div>
+
+            <div class="logout-section" id="logout-section">
+                <span id="user-display"></span>
+                <button onclick="handleLogout()">Sign out</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav">
+        <div class="container">
+            <ul>
+                <li><a href="#" onclick="trackLink(event, 'Home')">Home</a></li>
+                <li><a href="#" onclick="trackLink(event, 'Departments')">Departments</a></li>
+                <li><a href="#" onclick="trackLink(event, 'Services')">Services and information</a></li>
+                <li><a href="#" onclick="trackLink(event, 'Guidance')">Guidance and regulation</a></li>
+                <li><a href="#" onclick="trackLink(event, 'News')">News and communications</a></li>
+                <li class="dropdown">
+                    <a href="#">More</a>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="trackLink(event, 'Benefits')">Benefits</a>
+                        <a href="#" onclick="trackLink(event, 'Births')">Births, deaths, marriages and care</a>
+                        <a href="#" onclick="trackLink(event, 'Business')">Business and self-employed</a>
+                        <a href="#" onclick="trackLink(event, 'Childcare')">Childcare and parenting</a>
+                        <a href="#" onclick="trackLink(event, 'Citizenship')">Citizenship and living in the UK</a>
+                        <a href="#" onclick="trackLink(event, 'Crime')">Crime, justice and the law</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container main-content">
+        <div class="recent-activity" id="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul id="recent-list"></ul>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Popular on GOV.UK</h2>
+                <ul>
+                    <li><a href="#" onclick="trackLink(event, 'Get a passport')">Get a passport</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Universal Credit')">Universal Credit</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Vehicle tax')">Vehicle tax, MOT and insurance</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Driving test')">Book your driving test</a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>Latest information</h2>
+                <ul>
+                    <li><a href="#" onclick="trackLink(event, 'Cost of living')">Cost of living support</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Find a job')">Find a job</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Climate change')">Climate change and sustainability</a></li>
+                    <li><a href="#" onclick="trackLink(event, 'Business support')">Support for businesses</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy notice</a></li>
+                        <li><a href="#">Accessibility statement</a></li>
+                        <li><a href="#">Terms and conditions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>About GOV.UK</h3>
+                    <ul>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Government departments</a></li>
+                        <li><a href="#">Topics</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 30px; text-align: center;">
+                <p>&copy; 2025 Crown copyright</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const recentSearches = [];
+        let isLoggedIn = false;
+
+        function handleLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === 'Username1' && password === 'Password1') {
+                isLoggedIn = true;
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('logout-section').style.display = 'flex';
+                document.getElementById('user-display').textContent = `Welcome, ${username}!`;
+                document.getElementById('recent-activity').style.display = 'block';
+            } 
+            else {
+                alert('Invalid username or password');
+            }
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            document.getElementById('login-section').style.display = 'flex';
+            document.getElementById('logout-section').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('recent-activity').style.display = 'none';
+            recentSearches.length = 0;
+            updateRecentList();
+        }
+
+        function handleSearch() {
+            const searchQuery = document.getElementById('search-input').value;
+            if (searchQuery && isLoggedIn) {
+                addToRecent(`Searched: ${searchQuery}`);
+                document.getElementById('search-input').value = '';
+            }
+        }
+
+        function trackLink(event, linkText) {
+            event.preventDefault();
+            if (isLoggedIn) {
+                addToRecent(`Visited: ${linkText}`);
+                 
+            }
+        }
+
+        function addToRecent(item) {
+            recentSearches.unshift(item);
+            if (recentSearches.length > 5) {
+                recentSearches.pop();
+            }
+            updateRecentList();
+        }
+
+        function updateRecentList() {
+            const list = document.getElementById('recent-list');
+            list.innerHTML = '';
+            recentSearches.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        }
+
+        // Add enter key support for search
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+    </script>
+</body>
+</html>
